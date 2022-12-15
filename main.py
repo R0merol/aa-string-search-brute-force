@@ -18,7 +18,7 @@ def cek_file_json():  # cek apakah ada file teks.json atau tidak
 
 
 def input_teks():
-    print(f"{' Input Teks ':=^100}")
+    print(form_header(f"{' Input Teks ':=^100}"))
     judul = input("Judul teks: ")
     teks = input("Tempelkan teks di sini: ")
 
@@ -58,7 +58,7 @@ def brute_force(pola: str, teks: str):
 
 
 def pencarian_string():
-    print(f"{' Pencarian String ':=^100}")
+    print(form_header(f"{' Pencarian String ':=^100}"))
     while True:
         try:
             print("Pilih judul teks:")
@@ -74,25 +74,38 @@ def pencarian_string():
             teks = teks_json[list_judul[index]]
             print(textwrap.fill(teks, width=100))
             print("-" * 100)
-            pola = input(">>> Masukkan kata yang ingin dicari: ")
-            brute_force(pola, teks)
+            while True:
+                pola = input(">>> Masukkan kata yang ingin dicari: ")
+                brute_force(pola, teks)
+                if apakah_ingin_mengulang("pencarian"):
+                    continue
+                break
             break
         except IndexError:
-            print(f"{' Pilihan tidak ada, silahkan input kembali ':!^100}")
+            print(form_error(f"{' Pilihan tidak ada, silahkan input kembali ':!^100}"))
             continue
         except ValueError:
-            print(f"{' Pilihan harus berbentuk nomor, silahkan input kembali ':!^100}")
+            print(
+                form_error(f"{' Pilihan harus berbentuk nomor, silahkan input kembali ':!^100}"))
             continue
 
 
-def apakah_ingin_mengulang() -> bool:
-    print("Apakah anda ingin mengulang program?")
+def apakah_ingin_mengulang(program="program") -> bool:
+    print(f"Apakah anda ingin mengulang {program}?")
     jawaban = input(">>> Jawaban (y): ")
     return True if jawaban.lower() == "y" else False
 
 
+def form_header(text: str) -> str:
+    return "\033[34m\033[1m" + text + "\033[0m"
+
+
+def form_error(text: str) -> str:
+    return "\033[31m" + text + "\033[0m"
+
+
 def main():
-    print(f"{' Pencarian String menggunakan Algoritma Brute-Force ':=^100}")
+    print(form_header(f"{' Pencarian String menggunakan Algoritma Brute-Force ':=^100}"))
     while True:
         print("Pilih opsi tersebut:")
         print("1. Pencarian string")
@@ -103,7 +116,7 @@ def main():
         elif pilihan == "2":
             input_teks()
         else:
-            print(f"{' Pilihan salah, silahkan input kembali ':!^100}")
+            print(form_error(f"{' Pilihan salah, silahkan input kembali ':!^100}"))
             continue
         if apakah_ingin_mengulang():
             continue
