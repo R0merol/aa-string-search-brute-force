@@ -2,6 +2,7 @@ import json
 import textwrap
 
 
+# ====================== Handle JSON ======================= #
 def baca_json() -> dict:
     with open("teks.json", "r") as file:
         return json.load(file)
@@ -17,6 +18,20 @@ def cek_file_json():  # cek apakah ada file teks.json atau tidak
             json.dump(default, f, indent=2)
 
 
+# ======================= Format teks ====================== #
+def form_header(text: str) -> str:
+    return "\033[34m\033[1m" + text + "\033[0m"
+
+
+def form_error(text: str) -> str:
+    return "\033[31m" + text + "\033[0m"
+
+
+def form_pencarian(text: str, pola: str):
+    print(textwrap.fill(text.replace(pola, "\033[32m\033[1m\033[4m" + pola + "\033[0m"), width=100))
+
+
+# ===================== Fungsi Program ===================== #
 def input_teks():
     print(form_header(f"{' Input Teks ':=^100}"))
     judul = input("Judul teks: ")
@@ -76,7 +91,11 @@ def pencarian_string():
             print("-" * 100)
             while True:
                 pola = input(">>> Masukkan kata yang ingin dicari: ")
+                print("-" * 100)
                 brute_force(pola, teks)
+                print("Teks:")
+                form_pencarian(teks, pola)
+                print("-" * 100)
                 if apakah_ingin_mengulang("pencarian"):
                     continue
                 break
@@ -96,14 +115,7 @@ def apakah_ingin_mengulang(program="program") -> bool:
     return True if jawaban.lower() == "y" else False
 
 
-def form_header(text: str) -> str:
-    return "\033[34m\033[1m" + text + "\033[0m"
-
-
-def form_error(text: str) -> str:
-    return "\033[31m" + text + "\033[0m"
-
-
+# ========================== MAIN ========================== #
 def main():
     print(form_header(f"{' Pencarian String menggunakan Algoritma Brute-Force ':=^100}"))
     while True:
